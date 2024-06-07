@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Builder
@@ -26,5 +27,11 @@ public class Book {
 
     @OneToOne
     private Review review;
+
+    @ManyToMany
+    @JoinTable(name = "authors_books",
+            joinColumns = @JoinColumn(name="book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
+    private Set<Author> authors;
 
 }
