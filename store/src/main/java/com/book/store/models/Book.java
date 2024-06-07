@@ -1,11 +1,6 @@
 package com.book.store.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,5 +23,8 @@ public class Book {
 
     @Column(nullable = false, unique = true)
     private String title;
+
+    @OneToOne
+    private Review review;
 
 }

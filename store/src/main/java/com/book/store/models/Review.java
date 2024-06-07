@@ -1,11 +1,6 @@
 package com.book.store.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,4 +23,7 @@ public class Review {
 
     @Column(nullable = false)
     private String comment;
+
+    @OneToOne(mappedBy = "review")
+    private Book book;
 }
