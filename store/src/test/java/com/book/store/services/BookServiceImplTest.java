@@ -6,7 +6,6 @@ import com.book.store.models.Book;
 import com.book.store.models.Publisher;
 import com.book.store.models.Review;
 import com.book.store.repositories.BookRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,11 +39,8 @@ class BookServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        authors = Set.of(
-                Author.builder().id(UUID.randomUUID()).name("Jonathan Knudsen").build(),
-                Author.builder().id(UUID.randomUUID()).name("Patrick Niemeyer").build()
-        );
-        publisher = Publisher.builder().id(UUID.randomUUID()).name("O'Reilly Media").build();
+        initializeAuthors();
+        initializePublisher();
 
         bookDTOToSave = BookDTO.builder()
                 .title("Learning Java")
@@ -94,6 +90,17 @@ class BookServiceImplTest {
         assertThat(allSavedBook.get(0).authors()).hasSize(2);
         assertEquals(aSavedBook.getTitle(), allSavedBook.get(0).title());
         assertEquals(aSavedBook.getPublisher().getName(), allSavedBook.get(0).publisher().getName());
+    }
+
+    private void initializePublisher() {
+        publisher = Publisher.builder().id(UUID.randomUUID()).name("O'Reilly Media").build();
+    }
+
+    private void initializeAuthors() {
+        authors = Set.of(
+                Author.builder().id(UUID.randomUUID()).name("Jonathan Knudsen").build(),
+                Author.builder().id(UUID.randomUUID()).name("Patrick Niemeyer").build()
+        );
     }
 
 }
