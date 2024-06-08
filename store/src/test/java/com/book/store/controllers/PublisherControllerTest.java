@@ -1,5 +1,6 @@
 package com.book.store.controllers;
 
+import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 import com.book.store.services.PublisherServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +44,7 @@ class PublisherControllerTest {
 
     @Test
     void shouldAllowSaveAPublisher() throws Exception {
+        PublisherDTO publisherDTO = PublisherDTO.builder().name("A publisher name").build();
         Publisher publisherToSave = Publisher.builder()
                 .name("A publisher name")
                 .build();
