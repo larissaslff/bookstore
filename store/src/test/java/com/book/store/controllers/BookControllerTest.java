@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
@@ -82,10 +83,10 @@ class BookControllerTest {
 
     @Test
     void shouldReturnAllBooks() throws Exception {
-        when(bookService.getAllBook()).thenReturn(List.of(BookDTO.builder().build()));
+        when(bookService.getAllBook()).thenReturn(List.of(BookDTO.builder().build(), BookDTO.builder().build()));
 
         mockMvc.perform(get("/books")).andExpect(status().isOk())
-                .andExpect(jsonPath("$", is("books")));
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
 
