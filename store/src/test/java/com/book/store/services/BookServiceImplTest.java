@@ -5,12 +5,14 @@ import com.book.store.models.Author;
 import com.book.store.models.Book;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.BookRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,6 +51,14 @@ class BookServiceImplTest {
         assertEquals(newBook.title(), bookDTO.title());
         assertEquals(newBook.authors().size(), bookDTO.authors().size());
         assertEquals(newBook.publisher().getName(), bookDTO.publisher().getName());
+    }
+
+    @Test
+    void shouldReturnAllBooksSaved() {
+
+        List<BookDTO> allSavedBook = bookService.getAllBook();
+
+        assertNotNull(allSavedBook);
     }
 
 }

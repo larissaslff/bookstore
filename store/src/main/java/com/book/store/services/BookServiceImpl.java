@@ -5,6 +5,8 @@ import com.book.store.models.Book;
 import com.book.store.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.book.store.mappers.BookMapper.bookDTOToEntity;
 import static com.book.store.mappers.BookMapper.bookToBookDTO;
 
@@ -21,5 +23,10 @@ public class BookServiceImpl implements BookService{
         Book bookToSave = bookDTOToEntity(bookDTO);
         Book savedBook = bookRepository.save(bookToSave);
         return bookToBookDTO(savedBook);
+    }
+
+    @Override
+    public List<BookDTO> getAllBook() {
+        return null;
     }
 }
