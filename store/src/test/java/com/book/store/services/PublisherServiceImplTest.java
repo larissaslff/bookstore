@@ -1,5 +1,6 @@
 package com.book.store.services;
 
+import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,10 +19,12 @@ class PublisherServiceImplTest {
     @Test
     void shouldSaveAPublisher() {
         //Arrange
-
+        Publisher publisherToSave = Publisher.builder()
+                .name("A publisher name")
+                .build();
 
         //Act
-
+        publisherService.savePublisher(publisherToSave);
 
         //Assert
 
