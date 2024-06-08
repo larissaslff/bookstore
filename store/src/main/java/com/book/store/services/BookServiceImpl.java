@@ -1,8 +1,12 @@
 package com.book.store.services;
 
 import com.book.store.dto.BookDTO;
+import com.book.store.models.Book;
 import com.book.store.repositories.BookRepository;
 import org.springframework.stereotype.Service;
+
+import static com.book.store.mappers.BookMapper.bookDTOToEntity;
+import static com.book.store.mappers.BookMapper.bookToBookDTO;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -14,6 +18,8 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public BookDTO saveBook(BookDTO bookDTO) {
-        return null;
+        Book bookToSave = bookDTOToEntity(bookDTO);
+        Book savedBook = bookRepository.save(bookToSave);
+        return bookToBookDTO(savedBook);
     }
 }
