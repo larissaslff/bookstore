@@ -7,7 +7,6 @@ import com.book.store.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.book.store.mappers.BookMapper.bookDTOToEntity;
 import static com.book.store.mappers.BookMapper.bookToBookDTO;

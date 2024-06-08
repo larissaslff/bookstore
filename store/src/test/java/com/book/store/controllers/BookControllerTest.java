@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,8 +78,15 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.authors", hasSize(2)))
                 .andExpect(jsonPath("$.authors[*].name", containsInAnyOrder("Jonathan Knudsen", "Patrick Niemeyer")))
                 .andExpect(jsonPath("$.review.comment", is("A great book")));
-
-
     }
+
+    @Test
+    void shouldReturnAllBooks() throws Exception {
+        when(bookService.getAllBook()).thenReturn(List.of(BookDTO.builder().build()));
+
+        mockMvc.perform(get("/books")).andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("books")));
+    }
+
 
 }
