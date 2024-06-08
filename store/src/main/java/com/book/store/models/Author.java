@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +18,10 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "authors")
-public class Author {
+public class Author implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
