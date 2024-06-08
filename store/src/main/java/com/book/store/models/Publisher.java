@@ -1,5 +1,6 @@
 package com.book.store.models;
 
+import com.book.store.dto.PublisherDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +32,8 @@ public class Publisher implements Serializable {
 
     @OneToMany(mappedBy = "publisher")
     private Set<Book> books;
+
+    public static Publisher toEntity(PublisherDTO publisherDTO) {
+        return Publisher.builder().name(publisherDTO.name()).build();
+    }
 }

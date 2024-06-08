@@ -1,8 +1,9 @@
 package com.book.store.services;
 
+import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 
 public interface PublisherService {
-    Publisher savePublisher(Publisher publisherToSave);
+    PublisherDTO savePublisher(PublisherDTO publisherToSave);
 
     }

@@ -1,5 +1,6 @@
 package com.book.store.services;
 
+import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
 import org.junit.jupiter.api.Assertions;
@@ -28,19 +29,19 @@ class PublisherServiceImplTest {
     @Test
     void shouldSaveAPublisher() {
         //Arrange
-        Publisher publisherToSave = Publisher.builder()
+        PublisherDTO publisherToSave = PublisherDTO.builder()
                 .name("A publisher name")
                 .build();
 
-        when(publisherService.savePublisher(any(Publisher.class))).thenReturn(publisherToSave);
+        when(publisherService.savePublisher(any(PublisherDTO.class))).thenReturn(publisherToSave);
 
         //Act
-        Publisher savedPublisher = publisherService.savePublisher(publisherToSave);
+        PublisherDTO savedPublisher = publisherService.savePublisher(publisherToSave);
 
         //Assert
         verify(publisherRepository, times(1)).save(any(Publisher.class));
         assertNotNull(savedPublisher);
-        assertEquals(publisherToSave.getName(), savedPublisher.getName());
+        assertEquals(publisherToSave.name(), savedPublisher.name());
     }
 
 }

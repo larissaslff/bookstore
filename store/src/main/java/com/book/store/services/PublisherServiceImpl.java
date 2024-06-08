@@ -1,5 +1,6 @@
 package com.book.store.services;
 
+import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,9 @@ public class PublisherServiceImpl implements PublisherService{
     private final PublisherRepository publisherRepository;
 
     @Override
-    public Publisher savePublisher(Publisher publisherToSave) {
-        return publisherRepository.save(publisherToSave);
+    public PublisherDTO savePublisher(PublisherDTO publisherDTO) {
+        Publisher publisherToSave = Publisher.toEntity(publisherDTO);
+        Publisher saved = publisherRepository.save(publisherToSave);
+        return PublisherDTO.builder().name(saved.getName()).build();
     }
 }

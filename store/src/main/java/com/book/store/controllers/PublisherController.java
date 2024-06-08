@@ -1,5 +1,6 @@
 package com.book.store.controllers;
 
+import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 import com.book.store.services.PublisherService;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<Publisher> registerANewPublisher(@RequestBody Publisher publisher){
-        Publisher savedPublisher = publisherService.savePublisher(publisher);
+    public ResponseEntity<PublisherDTO> registerANewPublisher(@RequestBody PublisherDTO publisher){
+        PublisherDTO savedPublisher = publisherService.savePublisher(publisher);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPublisher);
     }
 }
