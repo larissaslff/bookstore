@@ -12,8 +12,7 @@ public class PublisherServiceImpl implements PublisherService{
     private final PublisherRepository publisherRepository;
 
     @Override
-    public void savePublisher(Publisher publisherToSave) {
-
-        publisherRepository.save(publisherToSave);
+    public Publisher savePublisher(Publisher publisherToSave) {
+        return publisherRepository.save(publisherToSave);
     }
 }
