@@ -3,11 +3,15 @@ package com.book.store.services;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+@ExtendWith(MockitoExtension.class)
 class PublisherServiceImplTest {
 
     @Mock
@@ -27,8 +31,7 @@ class PublisherServiceImplTest {
         publisherService.savePublisher(publisherToSave);
 
         //Assert
-
-
+        verify(publisherRepository, times(1)).save(any(Publisher.class));
     }
 
 }
