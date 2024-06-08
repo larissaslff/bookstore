@@ -1,10 +1,8 @@
 package com.book.store.controllers;
 
 import com.book.store.dto.PublisherDTO;
-import com.book.store.models.Publisher;
 import com.book.store.services.PublisherService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
