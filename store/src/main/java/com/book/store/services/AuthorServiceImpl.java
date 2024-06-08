@@ -18,8 +18,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public AuthorDTO saveAuthor(AuthorDTO authorDTO) {
-        Author author = toAuthorEntity(authorDTO);
-        Author saved = authorRepository.save(author);
+        Author saved = authorRepository.save(toAuthorEntity(authorDTO));
         return toAuthorDTO(saved);
     }
 }
