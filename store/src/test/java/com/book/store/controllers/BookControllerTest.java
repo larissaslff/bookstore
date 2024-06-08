@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class BookControllerTest {
+    public static final String URL_BOOKS = "/books";
     @Mock
     private BookServiceImpl bookService;
 
@@ -69,7 +70,7 @@ class BookControllerTest {
 
         when(bookService.saveBook(any(BookDTO.class))).thenReturn(savedBook);
 
-        mockMvc.perform(post("/books")
+        mockMvc.perform(post(URL_BOOKS)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookDTOToSave)))
                 .andExpect(status().isCreated())
@@ -84,7 +85,7 @@ class BookControllerTest {
     void shouldReturnAllBooks() throws Exception {
         when(bookService.getAllBook()).thenReturn(List.of(BookDTO.builder().build(), BookDTO.builder().build()));
 
-        mockMvc.perform(get("/books")).andExpect(status().isOk())
+        mockMvc.perform(get(URL_BOOKS)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
