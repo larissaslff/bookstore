@@ -1,9 +1,7 @@
 package com.book.store.controllers;
 
 import com.book.store.dto.AuthorDTO;
-import com.book.store.dto.PublisherDTO;
 import com.book.store.services.AuthorServiceImpl;
-import com.book.store.services.PublisherServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +51,7 @@ class AuthorControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(authorDTOToSave)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name", is("A publisher name")));
+                .andExpect(jsonPath("$.name", is("Shakespeare")));
 
     }
 
