@@ -1,11 +1,13 @@
 package com.book.store.services;
 
 import com.book.store.dto.BookDTO;
+import com.book.store.mappers.BookMapper;
 import com.book.store.models.Book;
 import com.book.store.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.book.store.mappers.BookMapper.bookDTOToEntity;
 import static com.book.store.mappers.BookMapper.bookToBookDTO;
@@ -27,6 +29,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookDTO> getAllBook() {
-        return null;
+        List<Book> books = bookRepository.findAll();
+        return books.stream().map(BookMapper::bookToBookDTO).toList();
     }
 }
