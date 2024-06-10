@@ -14,7 +14,7 @@ public abstract class BookMapper {
         return Book.builder()
                 .id(bookDTO.id())
                 .title(bookDTO.title())
-                .authors(bookDTO.authors().stream().map(AuthorMapper::toAuthorEntity).collect(Collectors.toSet()))
+                .authors(bookDTO.authors() == null ? null : bookDTO.authors().stream().map(AuthorMapper::toAuthorEntity).collect(Collectors.toSet()))
                 .review(bookDTO.review())
                 .publisher(publisherDTOToEntity(bookDTO.publisher()))
                 .build();
@@ -23,7 +23,7 @@ public abstract class BookMapper {
     public static BookDTO bookToBookDTO(Book book) {
         return BookDTO.builder()
                 .id(book.getId())
-                .authors(book.getAuthors().stream().map(AuthorMapper::toAuthorDTO).collect(Collectors.toSet()))
+                .authors(book.getAuthors() == null? null : book.getAuthors().stream().map(AuthorMapper::toAuthorDTO).collect(Collectors.toSet()))
                 .title(book.getTitle())
                 .review(book.getReview())
                 .publisher(publisherToPublisherDTO(book.getPublisher()))

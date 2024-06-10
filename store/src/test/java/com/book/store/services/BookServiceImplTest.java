@@ -77,12 +77,15 @@ class BookServiceImplTest {
     void shouldSaveABook() {
         BookDTO bookDTO = new BookDTO(UUID.randomUUID(), "Learning Java", null, authorsDTO, publisherDTO);
 
+        when(publisherService.savePublisher(any(PublisherDTO.class))).thenReturn(publisherDTO);
         when(bookRepository.save(any(Book.class))).thenReturn(aSavedBook);
 
         BookDTO newBook = bookService.saveBook(bookDTO);
 
+        verify(publisherService, times(1)).savePublisher(any(PublisherDTO.class));
         verify(bookRepository, times(1)).save(any(Book.class));
         assertNotNull(newBook);
+        assertNotNull(newBook.publisher());
         assertEquals(newBook.title(), bookDTO.title());
         assertEquals(newBook.authors().size(), bookDTO.authors().size());
         assertEquals(newBook.publisher().name(), bookDTO.publisher().name());
@@ -103,7 +106,7 @@ class BookServiceImplTest {
     }
 
     private void initializePublisher() {
-        publisherDTO = PublisherDTO.builder().name("O'Reilly Media").build();
+        publisherDTO = PublisherDTO.builder().id(UUID.randomUUID()).name("O'Reilly Media").build();
 
         publisher = publisherDTOToEntity(publisherDTO);
     }
