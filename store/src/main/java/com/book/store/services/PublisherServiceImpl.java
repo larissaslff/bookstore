@@ -1,6 +1,7 @@
 package com.book.store.services;
 
 import com.book.store.dto.PublisherDTO;
+import com.book.store.mappers.PublisherMapper;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,6 @@ public class PublisherServiceImpl implements PublisherService{
 
     @Override
     public Optional<PublisherDTO> findPublisherByName(String name) {
-        return Optional.empty();
+        return publisherRepository.findByName(name).map(PublisherMapper::publisherToPublisherDTO);
     }
 }

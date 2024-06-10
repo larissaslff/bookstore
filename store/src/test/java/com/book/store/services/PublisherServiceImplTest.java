@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,9 +50,9 @@ class PublisherServiceImplTest {
     @Test
     void shouldFindAPublisherByName() {
 
-
-        publisherService.findPublisherByName("name");
+        PublisherDTO foundAPublisher = publisherService.findPublisherByName("name").get();
 
         verify(publisherRepository, times(1)).findByName(anyString());
+        assertNotNull(foundAPublisher);
     }
 }
