@@ -1,6 +1,7 @@
 package com.book.store.controllers;
 
 import com.book.store.dto.BookDTO;
+import com.book.store.mappers.AuthorMapper;
 import com.book.store.models.Author;
 import com.book.store.models.Publisher;
 import com.book.store.models.Review;
@@ -19,7 +20,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import static com.book.store.mappers.PublisherMapper.publisherToPublisherDTO;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -55,16 +58,16 @@ class BookControllerTest {
         String title = "Learning Java";
 
         BookDTO bookDTOToSave = BookDTO.builder()
-                .authors(authors)
+                .authors(authors.stream().map(AuthorMapper::toAuthorDTO).collect(Collectors.toSet()))
                 .title(title)
-                .publisher(publisher)
+                .publisher(publisherToPublisherDTO(publisher))
                 .review(review)
                 .build();
 
         BookDTO savedBook = BookDTO.builder()
-                .authors(authors)
+                .authors(authors.stream().map(AuthorMapper::toAuthorDTO).collect(Collectors.toSet()))
                 .title(title)
-                .publisher(publisher)
+                .publisher(publisherToPublisherDTO(publisher))
                 .review(review)
                 .build();
 

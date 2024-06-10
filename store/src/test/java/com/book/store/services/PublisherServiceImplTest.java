@@ -33,15 +33,19 @@ class PublisherServiceImplTest {
                 .name("A publisher name")
                 .build();
 
-        when(publisherService.savePublisher(any(PublisherDTO.class))).thenReturn(publisherToSave);
+        Publisher savedPublisher = Publisher.builder()
+                .name("A publisher name")
+                .build();
+
+        when(publisherRepository.save(any(Publisher.class))).thenReturn(savedPublisher);
 
         //Act
-        PublisherDTO savedPublisher = publisherService.savePublisher(publisherToSave);
+        PublisherDTO aNewPublisher = publisherService.savePublisher(publisherToSave);
 
         //Assert
         verify(publisherRepository, times(1)).save(any(Publisher.class));
-        assertNotNull(savedPublisher);
-        assertEquals(publisherToSave.name(), savedPublisher.name());
+        assertNotNull(aNewPublisher);
+        assertEquals(publisherToSave.name(), aNewPublisher.name());
     }
 
 }

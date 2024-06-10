@@ -1,6 +1,10 @@
 package com.book.store.services;
 
+import com.book.store.dto.AuthorDTO;
 import com.book.store.dto.BookDTO;
+import com.book.store.dto.PublisherDTO;
+import com.book.store.mappers.AuthorMapper;
+import com.book.store.mappers.PublisherMapper;
 import com.book.store.models.Author;
 import com.book.store.models.Book;
 import com.book.store.models.Publisher;
@@ -15,8 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static com.book.store.mappers.PublisherMapper.publisherDTOToEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,7 +37,9 @@ class BookServiceImplTest {
     @InjectMocks
     private BookServiceImpl bookService;
 
+    private Set<AuthorDTO> authorsDTO;
     private Set<Author> authors;
+    private PublisherDTO publisherDTO;
     private Publisher publisher;
     private BookDTO bookDTOToSave;
     private BookDTO savedBookDTO;
@@ -44,15 +52,15 @@ class BookServiceImplTest {
 
         bookDTOToSave = BookDTO.builder()
                 .title("Learning Java")
-                .authors(authors)
-                .publisher(publisher)
+                .authors(authorsDTO)
+                .publisher(publisherDTO)
                 .review(Review.builder().comment("A great book").build())
                 .build();
 
         savedBookDTO = BookDTO.builder()
                 .title("Learning Java")
-                .authors(authors)
-                .publisher(publisher)
+                .authors(authorsDTO)
+                .publisher(publisherDTO)
                 .review(Review.builder().comment("A great book").build())
                 .build();
 
@@ -65,7 +73,7 @@ class BookServiceImplTest {
 
     @Test
     void shouldSaveAnBook() {
-        BookDTO bookDTO = new BookDTO("Learning Java", null, authors, publisher);
+        BookDTO bookDTO = new BookDTO("Learning Java", null, authorsDTO, publisherDTO);
 
         when(bookRepository.save(any(Book.class))).thenReturn(aSavedBook);
 
@@ -75,7 +83,7 @@ class BookServiceImplTest {
         assertNotNull(newBook);
         assertEquals(newBook.title(), bookDTO.title());
         assertEquals(newBook.authors().size(), bookDTO.authors().size());
-        assertEquals(newBook.publisher().getName(), bookDTO.publisher().getName());
+        assertEquals(newBook.publisher().name(), bookDTO.publisher().name());
     }
 
     @Test
@@ -89,18 +97,23 @@ class BookServiceImplTest {
         assertThat(allSavedBook).hasSize(1);
         assertThat(allSavedBook.get(0).authors()).hasSize(2);
         assertEquals(aSavedBook.getTitle(), allSavedBook.get(0).title());
-        assertEquals(aSavedBook.getPublisher().getName(), allSavedBook.get(0).publisher().getName());
+        assertEquals(aSavedBook.getPublisher().getName(), allSavedBook.get(0).publisher().name());
     }
 
     private void initializePublisher() {
-        publisher = Publisher.builder().id(UUID.randomUUID()).name("O'Reilly Media").build();
+        publisherDTO = PublisherDTO.builder().name("O'Reilly Media").build();
+
+        publisher = publisherDTOToEntity(publisherDTO);
     }
 
     private void initializeAuthors() {
-        authors = Set.of(
-                Author.builder().id(UUID.randomUUID()).name("Jonathan Knudsen").build(),
-                Author.builder().id(UUID.randomUUID()).name("Patrick Niemeyer").build()
+        authorsDTO = Set.of(
+                AuthorDTO.builder().name("Jonathan Knudsen").build(),
+                AuthorDTO.builder().name("Patrick Niemeyer").build()
         );
+
+        authors = authorsDTO.stream().map(AuthorMapper::toAuthorEntity).collect(Collectors.toSet());
+
     }
 
 }
