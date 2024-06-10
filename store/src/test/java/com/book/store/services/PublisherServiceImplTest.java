@@ -29,6 +29,8 @@ class PublisherServiceImplTest {
 
     private static Publisher publisher;
 
+    private static PublisherDTO publisherToSave;
+
     @BeforeAll
     static void setUp() {
         publisher = Publisher.builder()
@@ -36,28 +38,40 @@ class PublisherServiceImplTest {
                 .name("A publisher name")
                 .build();
 
+        publisherToSave = PublisherDTO.builder()
+                .name("A publisher name")
+                .build();
+
     }
 
     @Test
-    void shouldSaveAPublisher() {
+    void shouldOnlySaveAPublisherWhenDoesNotExistOneWithTheSameName() {
         //Arrange
-        PublisherDTO publisherToSave = PublisherDTO.builder()
-                .name("A publisher name")
-                .build();
-
-        Publisher savedPublisher = Publisher.builder()
-                .name("A publisher name")
-                .build();
-
-        when(publisherRepository.save(any(Publisher.class))).thenReturn(savedPublisher);
+        when(publisherRepository.findByName(anyString())).thenReturn(Optional.of(publisher));
 
         //Act
-        PublisherDTO aNewPublisher = publisherService.savePublisher(publisherToSave);
+        PublisherDTO savedPublisher = publisherService.savePublisher(publisherToSave);
 
         //Assert
+        verify(publisherRepository, times(1)).findByName(anyString());
+        verify(publisherRepository, times(0)).save(any(Publisher.class));
+        assertNotNull(savedPublisher);
+        assertNotNull(savedPublisher.id());
+        assertEquals(publisherToSave.name(), savedPublisher.name());
+    }
+
+    @Test
+    void shouldSaveAPublisherBecauseDoesNotExistOneWithTheSameName() {
+        when(publisherRepository.findByName(anyString())).thenReturn(Optional.empty());
+        when(publisherRepository.save(any(Publisher.class))).thenReturn(publisher);
+
+        PublisherDTO savedPublisherDTO = publisherService.savePublisher(publisherToSave);
+
+        verify(publisherRepository, times(1)).findByName(anyString());
         verify(publisherRepository, times(1)).save(any(Publisher.class));
-        assertNotNull(aNewPublisher);
-        assertEquals(publisherToSave.name(), aNewPublisher.name());
+        assertNotNull(savedPublisherDTO);
+        assertNotNull(savedPublisherDTO.id());
+        assertEquals(publisherToSave.name(), savedPublisherDTO.name());
     }
 
     @Test

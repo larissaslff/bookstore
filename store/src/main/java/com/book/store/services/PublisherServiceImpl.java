@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.book.store.mappers.PublisherMapper.publisherDTOToEntity;
+import static com.book.store.mappers.PublisherMapper.publisherToPublisherDTO;
 
 @Service
 @AllArgsConstructor
@@ -19,9 +20,14 @@ public class PublisherServiceImpl implements PublisherService{
 
     @Override
     public PublisherDTO savePublisher(PublisherDTO publisherDTO) {
-        Publisher publisherToSave = publisherDTOToEntity(publisherDTO);
-        Publisher saved = publisherRepository.save(publisherToSave);
-        return PublisherDTO.builder().name(saved.getName()).build();
+        Optional<Publisher> optionalPublisher = publisherRepository.findByName(publisherDTO.name());
+        if (optionalPublisher.isEmpty()) {
+            Publisher publisherToSave = publisherDTOToEntity(publisherDTO);
+            Publisher saved = publisherRepository.save(publisherToSave);
+            return publisherToPublisherDTO(saved);
+        }
+
+        return publisherToPublisherDTO(optionalPublisher.get());
     }
 
     @Override
