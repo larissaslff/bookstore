@@ -45,4 +45,12 @@ class PublisherServiceImplTest {
         assertEquals(publisherToSave.name(), aNewPublisher.name());
     }
 
+    @Test
+    void shouldFindAPublisherByName() {
+
+
+        publisherService.findPublisherByName("name");
+
+        verify(publisherRepository, times(1)).findByName(anyString());
+    }
 }

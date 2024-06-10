@@ -6,6 +6,8 @@ import com.book.store.repositories.PublisherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.book.store.mappers.PublisherMapper.publisherDTOToEntity;
 
 @Service
@@ -19,5 +21,10 @@ public class PublisherServiceImpl implements PublisherService{
         Publisher publisherToSave = publisherDTOToEntity(publisherDTO);
         Publisher saved = publisherRepository.save(publisherToSave);
         return PublisherDTO.builder().name(saved.getName()).build();
+    }
+
+    @Override
+    public Optional<PublisherDTO> findPublisherByName(String name) {
+        return Optional.empty();
     }
 }
