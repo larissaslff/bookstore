@@ -4,7 +4,6 @@ import com.book.store.dto.AuthorDTO;
 import com.book.store.dto.BookDTO;
 import com.book.store.dto.PublisherDTO;
 import com.book.store.mappers.AuthorMapper;
-import com.book.store.mappers.PublisherMapper;
 import com.book.store.models.Author;
 import com.book.store.models.Book;
 import com.book.store.models.Publisher;
@@ -20,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.book.store.mappers.PublisherMapper.publisherDTOToEntity;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -5,7 +5,8 @@ import com.book.store.models.Author;
 import com.book.store.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
-import static com.book.store.mappers.AuthorMapper.*;
+import static com.book.store.mappers.AuthorMapper.toAuthorDTO;
+import static com.book.store.mappers.AuthorMapper.toAuthorEntity;
 
 @Service
 public class AuthorServiceImpl implements AuthorService{

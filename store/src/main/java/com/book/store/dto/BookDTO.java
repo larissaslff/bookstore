@@ -1,7 +1,5 @@
 package com.book.store.dto;
 
-import com.book.store.models.Author;
-import com.book.store.models.Publisher;
 import com.book.store.models.Review;
 import lombok.Builder;
 
