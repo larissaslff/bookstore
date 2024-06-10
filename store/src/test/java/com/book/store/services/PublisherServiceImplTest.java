@@ -13,8 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -68,5 +68,15 @@ class PublisherServiceImplTest {
 
         verify(publisherRepository, times(1)).findByName(anyString());
         assertNotNull(foundAPublisher);
+    }
+
+    @Test
+    void shouldNotFindAnyPublisherByName() {
+        when(publisherRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        Optional<PublisherDTO> optionalPublisherDTO = publisherService.findPublisherByName("A publisher name");
+
+        verify(publisherRepository, times(1)).findByName(anyString());
+        assertThat(optionalPublisherDTO).isEmpty();
     }
 }
