@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.book.store.mappers.PublisherMapper.publisherDTOToEntity;
@@ -31,6 +32,9 @@ import static org.mockito.Mockito.*;
 class BookServiceImplTest {
     @Mock
     private BookRepository  bookRepository;
+
+    @Mock
+    private PublisherServiceImpl  publisherService;
 
     @InjectMocks
     private BookServiceImpl bookService;
@@ -70,8 +74,8 @@ class BookServiceImplTest {
     }
 
     @Test
-    void shouldSaveAnBook() {
-        BookDTO bookDTO = new BookDTO("Learning Java", null, authorsDTO, publisherDTO);
+    void shouldSaveABook() {
+        BookDTO bookDTO = new BookDTO(UUID.randomUUID(), "Learning Java", null, authorsDTO, publisherDTO);
 
         when(bookRepository.save(any(Book.class))).thenReturn(aSavedBook);
 
