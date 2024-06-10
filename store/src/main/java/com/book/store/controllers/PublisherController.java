@@ -20,8 +20,12 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<PublisherDTO> registerANewPublisher(@RequestBody PublisherDTO publisher){
-        PublisherDTO savedPublisher = publisherService.savePublisher(publisher);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPublisher);
+    public ResponseEntity<Object> registerANewPublisher(@RequestBody PublisherDTO publisher){
+        try {
+            PublisherDTO savedPublisher = publisherService.savePublisher(publisher);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedPublisher);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

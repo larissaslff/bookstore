@@ -50,14 +50,14 @@ class PublisherServiceImplTest {
         when(publisherRepository.findByName(anyString())).thenReturn(Optional.of(publisher));
 
         //Act
-        PublisherDTO savedPublisher = publisherService.savePublisher(publisherToSave);
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> {
+            publisherService.savePublisher(publisherToSave);
+        });
 
         //Assert
         verify(publisherRepository, times(1)).findByName(anyString());
         verify(publisherRepository, times(0)).save(any(Publisher.class));
-        assertNotNull(savedPublisher);
-        assertNotNull(savedPublisher.id());
-        assertEquals(publisherToSave.name(), savedPublisher.name());
+        assertEquals("Already exists a publisher with this name", runtimeException.getMessage());
     }
 
     @Test

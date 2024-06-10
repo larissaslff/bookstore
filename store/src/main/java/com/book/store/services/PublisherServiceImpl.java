@@ -27,7 +27,7 @@ public class PublisherServiceImpl implements PublisherService{
             return publisherToPublisherDTO(saved);
         }
 
-        return publisherToPublisherDTO(optionalPublisher.get());
+        throw new RuntimeException("Already exists a publisher with this name");
     }
 
     @Override
