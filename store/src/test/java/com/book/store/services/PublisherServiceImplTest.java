@@ -3,6 +3,7 @@ package com.book.store.services;
 import com.book.store.dto.PublisherDTO;
 import com.book.store.models.Publisher;
 import com.book.store.repositories.PublisherRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,6 +26,17 @@ class PublisherServiceImplTest {
 
     @InjectMocks
     private PublisherServiceImpl publisherService;
+
+    private static Publisher publisher;
+
+    @BeforeAll
+    static void setUp() {
+        publisher = Publisher.builder()
+                .id(UUID.randomUUID())
+                .name("A publisher name")
+                .build();
+
+    }
 
     @Test
     void shouldSaveAPublisher() {
@@ -48,9 +61,10 @@ class PublisherServiceImplTest {
     }
 
     @Test
-    void shouldFindAPublisherByName() {
+    void shouldFindAExistingPublisherByName() {
+        when(publisherRepository.findByName(anyString())).thenReturn(Optional.of(publisher));
 
-        PublisherDTO foundAPublisher = publisherService.findPublisherByName("name").get();
+        PublisherDTO foundAPublisher = publisherService.findPublisherByName("A publisher name").get();
 
         verify(publisherRepository, times(1)).findByName(anyString());
         assertNotNull(foundAPublisher);
