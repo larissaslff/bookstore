@@ -6,4 +6,5 @@ import com.book.store.dto.AuthorDTO;
 public interface AuthorService {
     AuthorDTO saveAuthor(AuthorDTO authorToSave);
 
-    }
+    boolean findAuthorsByName(String name);
+}

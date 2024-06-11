@@ -22,4 +22,9 @@ public class AuthorServiceImpl implements AuthorService{
         Author saved = authorRepository.save(toAuthorEntity(authorDTO));
         return toAuthorDTO(saved);
     }
+
+    @Override
+    public boolean findAuthorsByName(String name) {
+        return false;
+    }
 }

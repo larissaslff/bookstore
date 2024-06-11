@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +42,15 @@ class AuthorServiceImplTest {
         verify(authorRepository, times(1)).save(any(Author.class));
         assertNotNull(savedAuthorDTO);
         assertEquals(authorToSave.name(), savedAuthorDTO.name());
+    }
+
+    @Test
+    void should(){
+
+        boolean authorsExist = authorService.findAuthorsByName("name");
+
+        verify(authorRepository, times(1)).findByName(anyString());
+        assertTrue(authorsExist);
     }
 
 }
