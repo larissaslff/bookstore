@@ -55,4 +55,14 @@ class AuthorServiceImplTest {
         assertTrue(authorsExist);
     }
 
+    @Test
+    void shouldNotFindAnAuthorBecauseIsNotSavedYet(){
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        boolean authorsExist = authorService.findAuthorsByName("name");
+
+        verify(authorRepository, times(1)).findByName(anyString());
+        assertFalse(authorsExist);
+    }
+
 }
