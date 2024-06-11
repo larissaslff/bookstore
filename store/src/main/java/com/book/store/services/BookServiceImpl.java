@@ -26,7 +26,6 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public BookDTO saveBook(BookDTO bookDTO) {
-        //adicionar uma validação no caso de falha no save publish
         PublisherDTO publisherSaved = publisherService.savePublisher(bookDTO.publisher());
         Book bookToSave = bookDTOToEntity(bookDTO);
         bookToSave.setPublisher(publisherDTOToEntity(publisherSaved));

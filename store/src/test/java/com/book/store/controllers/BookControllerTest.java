@@ -7,7 +7,6 @@ import com.book.store.models.Author;
 import com.book.store.models.Publisher;
 import com.book.store.models.Review;
 import com.book.store.services.BookServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
