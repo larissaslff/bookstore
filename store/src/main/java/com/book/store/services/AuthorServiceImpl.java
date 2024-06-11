@@ -22,6 +22,12 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public AuthorDTO saveAuthor(AuthorDTO authorDTO) {
+        Optional<AuthorDTO> optExistingAuthor = findAuthorsByName(authorDTO.name());
+
+        if (optExistingAuthor.isPresent()) {
+            throw new RuntimeException("Already exists this author in our system");
+        }
+
         Author saved = authorRepository.save(toAuthorEntity(authorDTO));
         return toAuthorDTO(saved);
     }

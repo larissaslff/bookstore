@@ -27,7 +27,7 @@ class AuthorServiceImplTest {
     private AuthorServiceImpl authorService;
 
     @Test
-    void shouldSaveAnAuthor() {
+    void shouldSaveAnAuthorBecauseDoesNotExistOneAlreadyWithTheSameName() {
         AuthorDTO authorToSave = AuthorDTO.builder()
                 .name("Shakespeare")
                 .build();
@@ -37,13 +37,30 @@ class AuthorServiceImplTest {
                 .name("Shakespeare")
                 .build();
 
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.empty());
         when(authorRepository.save(any(Author.class))).thenReturn(savedAuthor);
 
         AuthorDTO savedAuthorDTO = authorService.saveAuthor(authorToSave);
 
+        verify(authorRepository, times(1)).findByName(anyString());
         verify(authorRepository, times(1)).save(any(Author.class));
         assertNotNull(savedAuthorDTO);
         assertEquals(authorToSave.name(), savedAuthorDTO.name());
+    }
+
+    @Test
+    void shouldNotSaveAnAuthorBecauseAlreadyExistWithTheSameName() {
+        AuthorDTO authorToSave = AuthorDTO.builder()
+                .name("Shakespeare")
+                .build();
+
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.of(Author.builder().name("Shakespeare").build()));
+
+        RuntimeException exceptionAlreadySavedAuthor = assertThrows(RuntimeException.class, () -> authorService.saveAuthor(authorToSave));
+
+        verify(authorRepository, times(1)).findByName(anyString());
+        verify(authorRepository, times(0)).save(any(Author.class));
+        assertEquals("Already exists this author in our system", exceptionAlreadySavedAuthor.getMessage());
     }
 
     @Test
