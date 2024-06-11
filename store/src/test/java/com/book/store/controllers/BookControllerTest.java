@@ -1,11 +1,13 @@
 package com.book.store.controllers;
 
 import com.book.store.dto.BookDTO;
+import com.book.store.dto.PublisherDTO;
 import com.book.store.mappers.AuthorMapper;
 import com.book.store.models.Author;
 import com.book.store.models.Publisher;
 import com.book.store.models.Review;
 import com.book.store.services.BookServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,11 +27,11 @@ import java.util.stream.Collectors;
 import static com.book.store.mappers.PublisherMapper.publisherToPublisherDTO;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookControllerTest {
@@ -82,6 +84,25 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.authors", hasSize(2)))
                 .andExpect(jsonPath("$.authors[*].name", containsInAnyOrder("Jonathan Knudsen", "Patrick Niemeyer")))
                 .andExpect(jsonPath("$.review.comment", is("A great book")));
+    }
+
+    @Test
+    void shouldNotSaveABookBecauseAlreadyExistAPublisherWithTheSameName() throws Exception {
+        BookDTO bookDTOToSave = BookDTO.builder()
+                .authors(null)
+                .title("title")
+                .publisher(PublisherDTO.builder().build())
+                .review(null)
+                .build();
+
+        String exceptionPublisherMessage = "Already exists a publisher with this name";
+
+        doThrow(new RuntimeException(exceptionPublisherMessage)).when(bookService).saveBook(any(BookDTO.class));
+
+        mockMvc.perform(post(URL_BOOKS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(bookDTOToSave))).andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString(exceptionPublisherMessage)));
     }
 
     @Test

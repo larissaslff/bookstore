@@ -12,14 +12,20 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
     private BookService bookService;
-    private BookController(BookService bookService){
+
+    private BookController(BookService bookService) {
         this.bookService = bookService;
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO> saveBook(@RequestBody BookDTO bookDTO) {
-        BookDTO savedBook = bookService.saveBook(bookDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+    public ResponseEntity<Object> saveBook(@RequestBody BookDTO bookDTO) {
+        try {
+            BookDTO savedBook = bookService.saveBook(bookDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @GetMapping

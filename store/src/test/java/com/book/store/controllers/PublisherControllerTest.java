@@ -59,11 +59,13 @@ class PublisherControllerTest {
     void shouldNotSaveAPublisherBecauseTheNameIsAlreadySaved() throws Exception {
         PublisherDTO publisherToSave = PublisherDTO.builder().name("name").build();
 
-        when(publisherService.savePublisher(any(PublisherDTO.class))).thenThrow(new RuntimeException("Already exists a publisher with this name"));
+        when(publisherService.savePublisher(any(PublisherDTO.class)))
+                .thenThrow(new RuntimeException("Already exists a publisher with this name"));
 
         mockMvc.perform(post("/publishers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(publisherToSave)))
-                .andExpect(status().isBadRequest()).andExpect(content().string(containsString("Already exists a publisher with this name")));
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString("Already exists a publisher with this name")));
     }
 }
