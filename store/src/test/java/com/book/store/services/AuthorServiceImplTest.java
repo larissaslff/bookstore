@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +46,8 @@ class AuthorServiceImplTest {
     }
 
     @Test
-    void should(){
+    void shouldFindAnExistingAuthorByName(){
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.of(Author.builder().id(UUID.randomUUID()).name("name").build()));
 
         boolean authorsExist = authorService.findAuthorsByName("name");
 

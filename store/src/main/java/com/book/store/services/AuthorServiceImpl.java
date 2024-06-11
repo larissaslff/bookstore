@@ -5,6 +5,8 @@ import com.book.store.models.Author;
 import com.book.store.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.book.store.mappers.AuthorMapper.toAuthorDTO;
 import static com.book.store.mappers.AuthorMapper.toAuthorEntity;
 
@@ -25,6 +27,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public boolean findAuthorsByName(String name) {
+        Optional<Author> author = authorRepository.findByName(name);
         return false;
     }
 }
