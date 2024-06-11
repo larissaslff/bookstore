@@ -4,7 +4,8 @@ import com.book.store.models.Book;
 import lombok.Builder;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Builder
-public record AuthorDTO(String name, Set<Book> books) {
+public record AuthorDTO(UUID id, String name, Set<Book> books) {
 }

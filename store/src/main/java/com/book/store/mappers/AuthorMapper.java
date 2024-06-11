@@ -13,6 +13,7 @@ public abstract class AuthorMapper {
 
     public static AuthorDTO toAuthorDTO(Author author) {
         return AuthorDTO.builder()
+                .id(author.getId())
                 .name(author.getName())
                 .build();
     }

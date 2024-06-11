@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -46,23 +47,23 @@ class AuthorServiceImplTest {
     }
 
     @Test
-    void shouldFindAnExistingAuthorByName(){
+    void shouldFindAnExistingAuthorByNameAndReturnThisAuthor(){
         when(authorRepository.findByName(anyString())).thenReturn(Optional.of(Author.builder().id(UUID.randomUUID()).name("name").build()));
 
-        boolean authorsExist = authorService.findAuthorsByName("name");
+        Optional<AuthorDTO> authorsExist = authorService.findAuthorsByName("name");
 
         verify(authorRepository, times(1)).findByName(anyString());
-        assertTrue(authorsExist);
+        assertNotNull(authorsExist.get().id());
     }
 
     @Test
     void shouldNotFindAnAuthorBecauseIsNotSavedYet(){
         when(authorRepository.findByName(anyString())).thenReturn(Optional.empty());
 
-        boolean authorsExist = authorService.findAuthorsByName("name");
+        Optional<AuthorDTO> author = authorService.findAuthorsByName("name");
 
         verify(authorRepository, times(1)).findByName(anyString());
-        assertFalse(authorsExist);
+        assertThat(author).isEmpty();
     }
 
 }
